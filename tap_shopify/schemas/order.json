@@ -593,7 +593,7 @@
         },
         "total_discounts": {
             "type": [
-                "string",
+                "number",
                 "null"
             ]
         },
@@ -647,7 +647,7 @@
         },
         "total_line_items_price": {
             "type": [
-                "string",
+                "number",
                 "null"
             ]
         },
@@ -701,7 +701,7 @@
         },
         "total_outstanding": {
             "type": [
-                "string",
+                "number",
                 "null"
             ]
         },
@@ -816,7 +816,7 @@
         },
         "total_tax": {
             "type": [
-                "string",
+                "number",
                 "null"
             ]
         },
