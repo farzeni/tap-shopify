@@ -144,6 +144,10 @@ class OrdersStream(tap_shopifyStream):
         if row:
             row["subtotal_price"] = Decimal(row["subtotal_price"])
             row["total_price"] = Decimal(row["total_price"])
+            row['total_discounts'] = Decimal(row['total_discounts'])
+            row['total_line_items_price'] = Decimal(row['total_line_items_price'])
+            row['total_tax'] = Decimal(row['total_tax'])
+            row['total_outstanding'] = Decimal(row['total_outstanding'])
         return row
 
     def get_child_context(self, record: dict, context: Optional[dict]) -> dict:
