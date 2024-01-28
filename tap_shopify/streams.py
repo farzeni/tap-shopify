@@ -1,5 +1,7 @@
 """Stream type classes for tap-shopify."""
 
+import logging
+
 from decimal import Decimal
 from pathlib import Path
 from typing import Optional
@@ -7,6 +9,9 @@ from typing import Optional
 from tap_shopify.client import tap_shopifyStream
 
 SCHEMAS_DIR = Path(__file__).parent / Path("./schemas")
+
+
+log = logging.getLogger(__name__)
 
 
 class AbandonedCheckouts(tap_shopifyStream):
@@ -141,13 +146,20 @@ class OrdersStream(tap_shopifyStream):
         """Perform syntactic transformations only."""
         row = super().post_process(row, context)
 
+        log.error("\n\n\n\n\n\n\n")
         if row:
             row["subtotal_price"] = Decimal(row["subtotal_price"])
             row["total_price"] = Decimal(row["total_price"])
-            row['total_discounts'] = Decimal(row['total_discounts'])
-            row['total_line_items_price'] = Decimal(row['total_line_items_price'])
-            row['total_tax'] = Decimal(row['total_tax'])
-            row['total_outstanding'] = Decimal(row['total_outstanding'])
+            row["total_discounts"] = Decimal(row["total_discounts"])
+            row["total_line_items_price"] = Decimal(row["total_line_items_price"])
+            row["total_tax"] = Decimal(row["total_tax"])
+            row["total_outstanding"] = Decimal(row["total_outstanding"])
+
+            row["current_subtotal_price"] = Decimal(row["current_subtotal_price"])
+            row["current_total_discounts"] = Decimal(row["current_total_discounts"])
+            row["current_total_price"] = Decimal(row["current_total_price"])
+            row["current_total_tax"] = Decimal(row["current_total_tax"])
+
         return row
 
     def get_child_context(self, record: dict, context: Optional[dict]) -> dict:
@@ -162,6 +174,28 @@ class OrdersStream(tap_shopifyStream):
             params["status"] = "any"
 
         return params
+
+
+class RefundsStream(tap_shopifyStream):
+    """Refunds stream."""
+
+    name = "refunds"
+    path = "/orders/{order_id}/refunds.json"
+    parent_stream_type = OrdersStream
+    ignore_parent_replication_key = True
+    records_jsonpath = "$.refunds[*]"
+    primary_keys = ["id"]
+    replication_key = "processed_at"
+    schema_filepath = SCHEMAS_DIR / "refund.json"
+
+
+class OrderMetafieldsStream(MetafieldsStream):
+    """Metafields stream."""
+
+    name = "order_metafields"
+    path = "/orders/{order_id}/metafields.json"
+    parent_stream_type = OrdersStream
+    ignore_parent_replication_key = True
 
 
 class ProductsStream(tap_shopifyStream):

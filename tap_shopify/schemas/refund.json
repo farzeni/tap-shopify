@@ -1,0 +1,201 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema",
+  "type": "object",
+  "properties": {
+    "id": {
+      "type": "integer"
+    },
+    "order_id": {
+      "type": "integer"
+    },
+    "created_at": {
+      "format": "date-time",
+      "type": ["string", "null"]
+    },
+    "updated_at": {
+      "format": "date-time",
+      "type": ["string", "null"]
+    },
+    "note": {
+      "type": ["string", "null"]
+    },
+    "user_id": {
+      "type": "integer"
+    },
+    "processed_at": {
+      "format": "date-time",
+      "type": ["string", "null"]
+    },
+    "restock": {
+      "type": "boolean"
+    },
+    "admin_graphql_api_id": {
+      "type": "string"
+    },
+    "order_adjustments": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer"
+          },
+          "order_id": {
+            "type": "integer"
+          },
+          "refund_id": {
+            "type": "integer"
+          },
+          "amount": {
+            "type": "string"
+          },
+          "tax_amount": {
+            "type": "string"
+          },
+          "kind": {
+            "type": "string"
+          },
+          "reason": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "refund_line_items": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer"
+          },
+          "quantity": {
+            "type": "integer"
+          },
+          "line_item_id": {
+            "type": "integer"
+          },
+          "location_id": {
+            "type": "integer"
+          },
+          "restock_type": {
+            "type": "string"
+          },
+          "subtotal": {
+            "type": "number"
+          },
+          "total_tax": {
+            "type": "number"
+          },
+          "subtotal_set": {
+            "type": "object",
+            "properties": {
+              "shop_money": {
+                "type": "object",
+                "properties": {
+                  "amount": { "type": "string" },
+                  "currency_code": { "type": "string" }
+                }
+              },
+              "presentment_money": {
+                "type": "object",
+                "properties": {
+                  "amount": { "type": "string" },
+                  "currency_code": { "type": "string" }
+                }
+              }
+            }
+          },
+          "total_tax_set": {
+            "type": "object",
+            "properties": {
+              "shop_money": {
+                "type": "object",
+                "properties": {
+                  "amount": { "type": "string" },
+                  "currency_code": { "type": "string" }
+                }
+              },
+              "presentment_money": {
+                "type": "object",
+                "properties": {
+                  "amount": { "type": "string" },
+                  "currency_code": { "type": "string" }
+                }
+              }
+            }
+          },
+          "line_item": {
+            "type": ["object", "null"],
+            "properties": {
+              "id": {
+                "type": "integer"
+              },
+              "variant_id": {
+                "type": "integer"
+              },
+              "title": {
+                "type": "string"
+              },
+              "quantity": {
+                "type": "integer"
+              },
+              "sku": {
+                "type": "string"
+              },
+              "variant_title": {
+                "type": "string"
+              },
+              "vendor": {
+                "type": ["string", "null"]
+              },
+              "fulfillment_service": {
+                "type": "string"
+              },
+              "product_id": {
+                "type": "integer"
+              },
+              "requires_shipping": {
+                "type": "boolean"
+              },
+              "taxable": {
+                "type": "boolean"
+              },
+              "gift_card": {
+                "type": "boolean"
+              },
+              "name": {
+                "type": "string"
+              },
+              "variant_inventory_management": {
+                "type": "string"
+              },
+              "product_exists": {
+                "type": "boolean"
+              },
+              "fulfillable_quantity": {
+                "type": "integer"
+              },
+              "grams": {
+                "type": "integer"
+              },
+              "price": {
+                "type": "string"
+              },
+              "total_discount": {
+                "type": "string"
+              },
+              "fulfillment_status": {
+                "type": ["string", "null"]
+              },
+              "admin_graphql_api_id": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        "required": ["id", "quantity", "line_item_id"]
+      }
+    }
+  }
+}

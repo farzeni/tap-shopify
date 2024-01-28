@@ -135,7 +135,7 @@
         },
         "current_subtotal_price": {
             "type": [
-                "string",
+                "number",
                 "null"
             ]
         },
@@ -189,7 +189,7 @@
         },
         "current_total_discounts": {
             "type": [
-                "string",
+                "number",
                 "null"
             ]
         },
@@ -249,7 +249,7 @@
         },
         "current_total_price": {
             "type": [
-                "string",
+                "number",
                 "null"
             ]
         },
@@ -303,7 +303,7 @@
         },
         "current_total_tax": {
             "type": [
-                "string",
+                "number",
                 "null"
             ]
         },
