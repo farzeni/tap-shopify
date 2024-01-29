@@ -20,7 +20,7 @@
       "type": ["string", "null"]
     },
     "user_id": {
-      "type": "integer"
+      "type": ["integer", "null", "string"]
     },
     "processed_at": {
       "format": "date-time",
