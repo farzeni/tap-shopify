@@ -146,7 +146,6 @@ class OrdersStream(tap_shopifyStream):
         """Perform syntactic transformations only."""
         row = super().post_process(row, context)
 
-        log.error("\n\n\n\n\n\n\n")
         if row:
             row["subtotal_price"] = Decimal(row["subtotal_price"])
             row["total_price"] = Decimal(row["total_price"])
@@ -164,7 +163,10 @@ class OrdersStream(tap_shopifyStream):
 
     def get_child_context(self, record: dict, context: Optional[dict]) -> dict:
         """Return a context dictionary for child streams."""
-        return {"order_id": record["id"]}
+        if record["current_total_price"] < record["total_price"]:
+            return {"order_id": record["id"]}
+
+        return None
 
     def get_url_params(self, context, next_page_token):
         """Return a dictionary of values to be used in URL parameterization."""
@@ -182,11 +184,17 @@ class RefundsStream(tap_shopifyStream):
     name = "refunds"
     path = "/orders/{order_id}/refunds.json"
     parent_stream_type = OrdersStream
-    ignore_parent_replication_key = True
+    ignore_parent_replication_key = False
     records_jsonpath = "$.refunds[*]"
     primary_keys = ["id"]
-    replication_key = "processed_at"
+    replication_key = "created_at"
     schema_filepath = SCHEMAS_DIR / "refund.json"
+
+    def read_records(
+        self, sync_mode, stream_slice=None, stream_state=None, context=None
+    ):
+        if context is not None:
+            return super().read_records(sync_mode, stream_slice, stream_state, context)
 
 
 class OrderMetafieldsStream(MetafieldsStream):
